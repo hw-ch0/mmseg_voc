@@ -2,27 +2,32 @@
 #     '../_base_/datasets/ade20k.py', '../_base_/default_runtime.py',
 #     '../_base_/schedules/schedule_160k.py'
 # ]
+# _base_ = [
+#     '../_base_/datasets/pascal_voc12_aug.py', '../_base_/default_runtime.py',
+#     '../_base_/schedules/schedule_160k.py'
+# ]
+
 _base_ = [
     '../_base_/datasets/pascal_voc12_aug.py', '../_base_/default_runtime.py',
-    '../_base_/schedules/schedule_20k.py'
+    '../_base_/schedules/schedule_320k.py'
 ]
 
 norm_cfg = dict(type='SyncBN', requires_grad=True)
 
 crop_size = (512, 512)
-# data_preprocessor = dict(
-#     type='SegDataPreProcessor',
-#     size=crop_size,
-#     mean=[123.675, 116.28, 103.53],
-#     std=[58.395, 57.12, 57.375],
-#     bgr_to_rgb=True,
-#     pad_val=0,
-#     seg_pad_val=255)
-
 data_preprocessor = dict(
     type='SegDataPreProcessor',
-    size=crop_size
-   )
+    size=crop_size,
+    mean=[123.675, 116.28, 103.53],
+    std=[58.395, 57.12, 57.375],
+    bgr_to_rgb=True,
+    pad_val=0,
+    seg_pad_val=255)
+
+# data_preprocessor = dict(
+#     type='SegDataPreProcessor',
+#     size=crop_size
+#    )
 
 # model_cfg
 # num_classes = 150
@@ -145,7 +150,7 @@ param_scheduler = [
         eta_min=0,
         power=0.9,
         begin=0,
-        end=160000,
+        end=320000,
         by_epoch=False)
 ]
 

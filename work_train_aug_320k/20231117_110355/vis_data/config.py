@@ -87,7 +87,7 @@ dataset_train = dict(
     type='PascalVOCDataset')
 dataset_type = 'PascalVOCDataset'
 default_hooks = dict(
-    checkpoint=dict(by_epoch=False, interval=2000, type='CheckpointHook'),
+    checkpoint=dict(by_epoch=False, interval=8000, type='CheckpointHook'),
     logger=dict(interval=50, log_metric_by_epoch=False, type='LoggerHook'),
     param_scheduler=dict(type='ParamSchedulerHook'),
     sampler_seed=dict(type='DistSamplerSeedHook'),
@@ -295,7 +295,7 @@ param_scheduler = [
     dict(
         begin=0,
         by_epoch=False,
-        end=160000,
+        end=320000,
         eta_min=0,
         power=0.9,
         type='PolyLR'),
@@ -335,7 +335,8 @@ test_pipeline = [
     dict(type='LoadAnnotations'),
     dict(type='PackSegInputs'),
 ]
-train_cfg = dict(max_iters=20000, type='IterBasedTrainLoop', val_interval=2000)
+train_cfg = dict(
+    max_iters=320000, type='IterBasedTrainLoop', val_interval=8000)
 train_dataloader = dict(
     batch_size=2,
     dataset=dict(
@@ -502,4 +503,4 @@ visualizer = dict(
     vis_backends=[
         dict(type='LocalVisBackend'),
     ])
-work_dir = 'work_train_aug'
+work_dir = 'work_train_aug_320k'

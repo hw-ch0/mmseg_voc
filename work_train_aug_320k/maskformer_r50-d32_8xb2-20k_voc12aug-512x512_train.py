@@ -3,10 +3,24 @@ crop_size = (
     512,
 )
 data_preprocessor = dict(
+    bgr_to_rgb=True,
+    mean=[
+        123.675,
+        116.28,
+        103.53,
+    ],
+    pad_val=0,
+    seg_pad_val=255,
     size=(
         512,
         512,
-    ), type='SegDataPreProcessor')
+    ),
+    std=[
+        58.395,
+        57.12,
+        57.375,
+    ],
+    type='SegDataPreProcessor')
 data_root = 'data/VOCdevkit/VOC2012'
 dataset_aug = dict(
     ann_file='ImageSets/Segmentation/aug.txt',
@@ -73,7 +87,7 @@ dataset_train = dict(
     type='PascalVOCDataset')
 dataset_type = 'PascalVOCDataset'
 default_hooks = dict(
-    checkpoint=dict(by_epoch=False, interval=2000, type='CheckpointHook'),
+    checkpoint=dict(by_epoch=False, interval=8000, type='CheckpointHook'),
     logger=dict(interval=50, log_metric_by_epoch=False, type='LoggerHook'),
     param_scheduler=dict(type='ParamSchedulerHook'),
     sampler_seed=dict(type='DistSamplerSeedHook'),
@@ -124,10 +138,25 @@ model = dict(
         ),
         style='pytorch',
         type='ResNet'),
-    data_preprocessor=dict(size=(
-        512,
-        512,
-    ), type='SegDataPreProcessor'),
+    data_preprocessor=dict(
+        bgr_to_rgb=True,
+        mean=[
+            123.675,
+            116.28,
+            103.53,
+        ],
+        pad_val=0,
+        seg_pad_val=255,
+        size=(
+            512,
+            512,
+        ),
+        std=[
+            58.395,
+            57.12,
+            57.375,
+        ],
+        type='SegDataPreProcessor'),
     decode_head=dict(
         enforce_decoder_input_project=False,
         feat_channels=256,
@@ -266,7 +295,7 @@ param_scheduler = [
     dict(
         begin=0,
         by_epoch=False,
-        end=160000,
+        end=320000,
         eta_min=0,
         power=0.9,
         type='PolyLR'),
@@ -306,7 +335,8 @@ test_pipeline = [
     dict(type='LoadAnnotations'),
     dict(type='PackSegInputs'),
 ]
-train_cfg = dict(max_iters=20000, type='IterBasedTrainLoop', val_interval=2000)
+train_cfg = dict(
+    max_iters=320000, type='IterBasedTrainLoop', val_interval=8000)
 train_dataloader = dict(
     batch_size=2,
     dataset=dict(
@@ -473,4 +503,4 @@ visualizer = dict(
     vis_backends=[
         dict(type='LocalVisBackend'),
     ])
-work_dir = 'work_train_aug'
+work_dir = 'work_train_aug_320k'
