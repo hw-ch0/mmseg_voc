@@ -151,7 +151,7 @@ param_scheduler = [
         eta_min=0,
         power=0.9,
         begin=0,
-        end=320000,
+        end=160000,
         by_epoch=False)
 ]
 
