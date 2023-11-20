@@ -8,5 +8,5 @@
 bash tools/dist_finetune.sh \
 configs/maskformer/maskformer_r50-d32_8xb2-20k_voc12aug-512x512_finetune.py \
 4 \
---work-dir work_finetune_coco_2 \
+--work-dir resultswork_finetune_coco_4 \
 # --resume-from checkpoint/maskformer_r50-d32_8xb2-160k_ade20k-512x512_20221030_182724-3a9cfe45.pth

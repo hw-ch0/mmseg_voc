@@ -120,30 +120,42 @@ def main():
      # 3. Get names of layers in the current model (MaskFormer)
     layer_names = []
     for idx, (layer, param) in enumerate(runner.model.named_parameters()):
-        layer_names.append(layer)
-        # print(f"[CHECK A] [idx {idx}] {layer}")
+        layer_names.append(layer[7:]) # except module.
+        # print(f"[CHECK A] [idx {idx}] {layer[7:]}")
+    '''
+    [3, 4, 6, 3] -> (30, 39, 57, 30) -> w/o downsample -> (27, 36, 54, 27)
+    3~32   : backbone.layer1  
+    33~71  : backbone.layer2  
+    72~128 : backbone.layer3
+    129~158: backbone.layer4
+    159~302: decode_head
+    '''
     
-    # for idx, layer in enumerate(pretrained_dlv3['state_dict'].keys()):
-    #     print(f"[CHECK B] [idx {idx}] {layer}")
+    cnt_2 = 0
+    for idx, layer in enumerate(pretrained_dlv3['state_dict'].keys()):
+        # print(f"[CHECK B] [idx {idx}] {layer}")
+        if layer in layer_names:
+            cnt_2 += 1
+    # print(f"[CHECK C] Overapped backbone layers: {cnt_2}") # 156
+    
+    
     
     original_lr = 0.0001
-    finetune_ratio = 0.1
-    
+    finetune_ratio = 0.05
     parameters = []
-    cnt_2 = 0
+    cnt_3 = 0
     for idx, layer in enumerate(layer_names):    
-        
-        layer_ = layer[7:] # except module.
-        if layer_ in pretrained_maskformer['state_dict'].keys(): # backbone
-            runner.model._parameters[layer] = pretrained_maskformer['state_dict'][layer_]
+        if layer in pretrained_dlv3['state_dict'].keys() and idx<=128: # backbone
+            runner.model._parameters[layer] = pretrained_dlv3['state_dict'][layer]
             lr = original_lr * finetune_ratio
-            cnt_2 += 1
+            # lr = original_lr *
+            cnt_3 += 1
         else: # fc layer
             lr = original_lr
         parameters += [{'params': [p for l, p in runner.model.named_parameters() if l == layer and p.requires_grad],
                         'lr':     lr}]
     
-    # print(f"[CHECK B] Overapped backbone layers: {cnt_2}") # 303
+    # print(f"[CHECK D] cnt_3: {cnt_3}") # 126
     
 
     ############ set optimizer & optim_wrapper  ############ 
