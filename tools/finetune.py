@@ -135,8 +135,8 @@ def main():
     for idx, layer in enumerate(layer_names):    
         if layer in pretrained_dlv3['state_dict'].keys() and idx<=128: # backbone
             runner.model._parameters[layer] = pretrained_dlv3['state_dict'][layer]
-            lr = original_lr * finetune_ratio
-            # lr = original_lr *
+            # lr = original_lr * finetune_ratio
+            lr = original_lr
             cnt_3 += 1
         else: # fc layer
             lr = original_lr

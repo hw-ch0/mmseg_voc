@@ -8,4 +8,4 @@
 bash tools/dist_finetune.sh \
 configs/maskformer/maskformer_r50-d32_8xb2-20k_voc12aug-512x512_finetune.py \
 4 \
---work-dir results/work_finetune_coco_4
+--work-dir results/work_finetune_coco
