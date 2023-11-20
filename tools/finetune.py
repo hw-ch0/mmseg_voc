@@ -91,18 +91,6 @@ def main():
     ############ load parameters from pretrain model  ############    
     # 1. Load pretrained model (Deeplap-v3 pretrained on COCO-Stuff 164k )
     pretrained_dlv3 = torch.load('checkpoint/deeplabv3_r50-d8_512x512_4x4_320k_coco-stuff164k_20210709_155403-51b21115.pth')
-    pretrained_maskformer = torch.load('checkpoint/iter_160000.pth')
-    
-    # 2. save pretrained weights into temp dictionary (MaskFormer)
-    cnt_1 = 0
-    for idx, layer in enumerate(pretrained_maskformer['state_dict'].keys()):    
-        if layer in pretrained_dlv3['state_dict'].keys(): # backbone
-            pretrained_maskformer['state_dict'][layer] = pretrained_dlv3['state_dict'][layer]    
-            cnt_1 += 1
-    # print(f"[CHECK A] Overapped backbone layers: {cnt_1}") # 312
-    
-    
-    
     
     # resume training
     cfg.resume = args.resume
@@ -121,7 +109,7 @@ def main():
     layer_names = []
     for idx, (layer, param) in enumerate(runner.model.named_parameters()):
         layer_names.append(layer[7:]) # except module.
-        # print(f"[CHECK A] [idx {idx}] {layer[7:]}")
+        print(f"[CHECK A] [idx {idx}] {layer[7:]}")
     '''
     [3, 4, 6, 3] -> (30, 39, 57, 30) -> w/o downsample -> (27, 36, 54, 27)
     3~32   : backbone.layer1  
@@ -136,7 +124,7 @@ def main():
         # print(f"[CHECK B] [idx {idx}] {layer}")
         if layer in layer_names:
             cnt_2 += 1
-    # print(f"[CHECK C] Overapped backbone layers: {cnt_2}") # 156
+    print(f"[CHECK C] Overapped backbone layers: {cnt_2}") # 156
     
     
     
@@ -155,7 +143,7 @@ def main():
         parameters += [{'params': [p for l, p in runner.model.named_parameters() if l == layer and p.requires_grad],
                         'lr':     lr}]
     
-    # print(f"[CHECK D] cnt_3: {cnt_3}") # 126
+    print(f"[CHECK D] cnt_3: {cnt_3}") # 126
     
 
     ############ set optimizer & optim_wrapper  ############ 

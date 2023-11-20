@@ -6,6 +6,6 @@
 # --resume-from checkpoints/co_deformable_detr_r50_1x_coco.pth
 
 bash tools/dist_finetune.sh \
-configs/maskformer/maskformer_r50-d32_8xb2-20k_voc12aug-512x512_finetune.py \
+configs/mask2former/mask2former_r50_8xb2-160k_voc12aug-512x512_finetune.py \
 4 \
---work-dir results/work_finetune_coco_4
+--work-dir results/work_finetune_mask2former_coco

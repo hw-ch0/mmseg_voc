@@ -8,4 +8,4 @@
 bash tools/dist_train.sh \
     configs/mask2former/mask2former_r50_8xb2-160k_voc12aug-512x512.py \
     4 \
-    --work-dir work_train_mask2former_160k
+    --work-dir results/work_train_mask2former_160k
