@@ -134,8 +134,9 @@ model = dict(
 )
 # optimizer
 optimizer = dict(
-    type='AdamW', lr=0.0001, betas=(0.9, 0.999), weight_decay=0.0001)
-
+    # type='AdamW', lr=0.0001, betas=(0.9, 0.999), weight_decay=0.0001)
+    # type='AdamW', lr=0.0002, betas=(0.9, 0.999), weight_decay=0.0001)
+    type='AdamW', lr=0.00001, betas=(0.9, 0.999), weight_decay=0.0001)
 optim_wrapper = dict(
     _delete_=True,
     type='OptimWrapper',

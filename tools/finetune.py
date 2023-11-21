@@ -140,7 +140,7 @@ def main():
             cnt_3 += 1
         else: # fc layer
             lr = original_lr
-        parameters += [{'params': [p for l, p in runner.model.named_parameters() if l == layer and p.requires_grad],
+        parameters += [{'params': [p for l, p in runner.model.named_parameters() if l[7:] == layer and p.requires_grad],
                         'lr':     lr}]
     
     print(f"[CHECK D] cnt_3: {cnt_3}") # 126

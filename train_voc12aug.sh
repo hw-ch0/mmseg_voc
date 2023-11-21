@@ -18,6 +18,6 @@
 # --resume-from checkpoints/co_deformable_detr_r50_1x_coco.pth
 
 bash tools/dist_train.sh \
-    configs/maskformer/maskformer_r50-d32_8xb2-20k_voc12aug-512x512_train.py \
+    configs/maskformer/maskformer_r50-d32_8xb2-160k_voc12aug-512x512_train.py \
     4 \
-    --work-dir work_train_aug_320k \
+    --work-dir results/work_train_aug_160k
