@@ -57,11 +57,11 @@ class SegVisualizationHook(Hook):
         self.wait_time = wait_time
         self.backend_args = backend_args.copy() if backend_args else None
         self.draw = draw
-        if not self.draw:
-            warnings.warn('The draw is False, it means that the '
-                          'hook for visualization will not take '
-                          'effect. The results will NOT be '
-                          'visualized or stored.')
+#if not self.draw:
+#           warnings.warn('The draw is False, it means that the '
+#                         'hook for visualization will not take '
+#                         'effect. The results will NOT be '
+#                         'visualized or stored.')
 
     def _after_iter(self,
                     runner: Runner,
