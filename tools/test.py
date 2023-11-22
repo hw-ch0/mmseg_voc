@@ -81,13 +81,13 @@ def trigger_visualization_hook(cfg, args):
 
 def main():
     args = parse_args()
-
+    
     # load config
     cfg = Config.fromfile(args.config)
     cfg.launcher = args.launcher
     if args.cfg_options is not None:
         cfg.merge_from_dict(args.cfg_options)
-
+    
     # work_dir is determined in this priority: CLI > segment in file > filename
     if args.work_dir is not None:
         # update configs according to CLI args if args.work_dir is not None
@@ -96,7 +96,7 @@ def main():
         # use config filename as default work_dir if cfg.work_dir is None
         cfg.work_dir = osp.join('./work_dirs',
                                 osp.splitext(osp.basename(args.config))[0])
-
+    
     cfg.load_from = args.checkpoint
 
     if args.show or args.show_dir:
@@ -111,10 +111,20 @@ def main():
     if args.out is not None:
         cfg.test_evaluator['output_dir'] = args.out
         cfg.test_evaluator['keep_results'] = True
-
+    
     # build the runner from config
     runner = Runner.from_cfg(cfg)
-
+    
+    ##### print configuration
+    if int(os.environ['LOCAL_RANK'])==0:       
+        print("[CONFIGURATIONS]")
+        print(f"{'Model':<18}: {cfg.model.module.decode_head.type} ")
+        print(f"{'Backbone':<18}: {cfg.model.module.backbone.type}-{cfg.model.module.backbone.depth}")
+        print(f"{'Test Dataset':<18}: {cfg.dataset_type} ({cfg.data_root})")
+        print(f"{'Test Metric':<18}: {cfg.val_evaluator} ")
+        print(f"{'# of Test samples':<18}: {len(runner.val_dataloader.dataset)} ")
+        print("\n[EVALUATION]")
+    
     # start testing
     runner.test()
 
