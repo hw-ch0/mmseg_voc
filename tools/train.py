@@ -56,6 +56,9 @@ def parse_args():
 def main():
     args = parse_args()
 
+    import warnings
+    warnings.filterwarnings('ignore')
+    
     # load config
     cfg = Config.fromfile(args.config)
     cfg.launcher = args.launcher

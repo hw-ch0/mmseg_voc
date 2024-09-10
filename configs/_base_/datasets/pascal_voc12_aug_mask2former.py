@@ -41,7 +41,12 @@ test_pipeline = [
     dict(type='LoadAnnotations'),
     dict(type='PackSegInputs')
 ]
-img_ratios = [0.5, 0.75, 1.0, 1.25, 1.5, 1.75]
+# img_ratios = [0.5, 0.75, 1.0, 1.25, 1.5, 1.75]
+# img_ratios = [0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0] tta-2
+# img_ratios = [0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0] # tta-3
+# img_ratios = [0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2] # tta-4
+# img_ratios = [0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4] # tta-5
+img_ratios = [0.4, 0.5, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 1.9, 2.0] # tta-7
 tta_pipeline = [
     dict(type='LoadImageFromFile', backend_args=None),
     dict(

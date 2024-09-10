@@ -5,6 +5,8 @@ NODE_RANK=${NODE_RANK:-0}
 PORT=${PORT:-29500}
 MASTER_ADDR=${MASTER_ADDR:-"127.0.0.1"}
 
+start_time=$(date +%s)
+
 PYTHONPATH="$(dirname $0)/..":$PYTHONPATH \
 python -m torch.distributed.launch \
     --nnodes=$NNODES \
@@ -15,3 +17,8 @@ python -m torch.distributed.launch \
     $(dirname "$0")/train.py \
     $CONFIG \
     --launcher pytorch ${@:3}
+
+end_time=$(date +%s)
+
+elapsed_time=$((end_time - start_time))
+echo "Elapsed time: ${elapsed_time} seconds"
